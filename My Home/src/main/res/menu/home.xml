@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/home_action_android_settings" android:title="@string/action_android_settings" />
+
+    <item android:id="@+id/home_action_launcher_settings" android:title="@string/action_launcher_settings" />
+
+</menu>

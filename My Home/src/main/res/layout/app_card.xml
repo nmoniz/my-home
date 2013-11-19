@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:minWidth="90dp"
+              android:minHeight="90dp"
+              android:padding="@dimen/app_card_padding">
+
+    <ImageView android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:src="@drawable/app_card_background" />
+
+    <ImageView android:id="@+id/app_card_icon"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:layout_gravity="center"
+               android:padding="9dp"
+               android:scaleType="fitCenter"
+               android:adjustViewBounds="true"
+               android:src="@drawable/ic_launcher" />
+
+    <TextView android:id="@+id/app_card_title"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="bottom"
+              android:padding="5dp"
+              android:background="@color/text_background_light"
+              android:gravity="center_vertical"
+              android:singleLine="true"
+              android:text="@string/dummy_text_short"
+              android:textColor="@android:color/white"
+              android:textSize="12sp"/>
+
+</FrameLayout>

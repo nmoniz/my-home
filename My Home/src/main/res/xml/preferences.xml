@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:custom="http://schemas.android.com/apk/res-auto" >
+
+	<PreferenceScreen
+            android:key="button_desktop_category_key"
+            android:title="@string/desktop"
+            android:summary="@string/desktop_summary"
+            android:persistent="false"
+            >
+
+            <com.materciomoniz.myhome.utils.NumberPickerDialogPreference
+                android:key="pref_home_screens"
+		        android:defaultValue="2"
+                android:dialogMessage="@string/pref_summary_homescreen_number"
+                android:max="10"
+                android:title="@string/pref_title_homescreen_number"
+                custom:min="1" />
+    </PreferenceScreen>
+
+
+	<PreferenceScreen
+            android:key="button_drawer_category_key"
+            android:title="@string/drawer"
+            android:summary="@string/drawer_summary"
+            android:persistent="false"
+            >
+
+		<CheckBoxPreference
+				android:key="pref_hide_action_bar"
+				android:title="@string/pref_hide_action_bar"
+				android:summary="@string/pref_hide_action_bar_summ"
+				android:defaultValue="false" />
+
+    </PreferenceScreen>
+
+	<PreferenceScreen
+			android:key="button_widgets_category_key"
+			android:title="@string/widgets"
+			android:summary="@string/widgets_summary"
+			android:persistent="false"
+			>
+
+	</PreferenceScreen>
+
+	<PreferenceScreen
+			android:key="button_donate_category_key"
+			android:title="@string/donate"
+			android:summary="@string/donate_summary"
+			android:persistent="false"
+			>
+
+	</PreferenceScreen>
+
+
+	<PreferenceScreen
+            android:key="button_about_category_key"
+            android:title="@string/about"
+            android:persistent="false"
+            >
+
+    </PreferenceScreen>
+
+</PreferenceScreen>

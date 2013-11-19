@@ -1,10 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">My Home</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_description">Super awesome application launcher</string>
+    <string name="app_version_name">Uruguay River</string>
 
+    <string name="app_preferences">My Home Settings</string>
+    <string name="pref_dummy">Dummy Check Box</string>
+    <string name="pref_dummy_summ">Dummy Check Box</string>
+    <string name="pref_settings_title">Here we have the dummy settingsx</string>
+
+    <string name="desktop">Desktop</string>
+    <string name="desktop_summary">Home Screens and Wallpaper</string>
+
+    <string name="pref_title_homescreen_number">Home Screens</string>
+    <string name="pref_summary_homescreen_number">Set the number of Home Screns</string>
+
+    <string name="drawer">Drawer</string>
+    <string name="drawer_summary">Apps and Widget Drawer</string>
+
+	<string name="pref_hide_action_bar">Hide Action Bar</string>
+	<string name="pref_hide_action_bar_summ">Select to hide Action Bar on apps drawer</string>
+
+	<string name="widgets">Widgets</string>
+	<string name="widgets_summary">Widgets bla bla</string>
+
+    <string name="about">About</string>
+
+    <string name="donate">Donate</string>
+    <string name="donate_summary">If you like our work, fell free to pay us a drink!</string>
+
+    <string name="sorting_recents">Recently used apps</string>
+    <string name="sorting_frequent">Most used apps</string>
+
+    <string name="tab_widgets">Widgets</string>
+    <string name="tab_apps">Apps</string>
+    <string name="tab_smart">Smart</string>
+
+    <string name="action_launcher_settings">Launcher Settings</string>
+    <string name="action_android_settings">System Settings</string>
+
+    <string name="dummy_text_short">Dummy text</string>
+    <string name="dummy_text_long">This is a very long and useless dummy text</string>
 </resources>

@@ -1,27 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.natercio.myhome"
-    android:versionCode="1"
-    android:versionName="1.0" >
+          package="com.natercio.myhome"
+          android:versionName="@string/app_version_name">
 
-    <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="19" />
+    <uses-sdk android:targetSdkVersion="17"
+              android:minSdkVersion="8"/>
+
+    <uses-permission android:name="android.permission.SET_WALLPAPER"/>
 
     <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-        <activity
-            android:name="com.natercio.myhome.Launcher"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Launcher">
 
-                <category android:name="android.intent.category.LAUNCHER" />
+        <service android:name=".profiler.ProfilerService"
+                 android:exported="false"/>
+
+        <activity android:name=".Launcher"
+                  android:screenOrientation="portrait"
+                  android:launchMode="singleTask"
+                  android:description="@string/app_description">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.HOME"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
+
         </activity>
+
     </application>
 
 </manifest>
