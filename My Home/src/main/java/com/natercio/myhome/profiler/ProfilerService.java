@@ -2,8 +2,14 @@ package com.natercio.myhome.profiler;
 
 import android.app.Service;
 import android.content.Intent;
-import android.os.*;
+import android.os.Binder;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.IBinder;
+import android.os.Looper;
+import android.os.Message;
 import android.os.Process;
+
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.natercio.myhome.db.ORMMyHomeDBHelper;
 import com.natercio.myhome.utils.MyHomeLog;

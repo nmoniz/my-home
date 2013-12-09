@@ -14,11 +14,11 @@ import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.natercio.myhome.db.Event;
 import com.natercio.myhome.profiler.GetFrequentTask;
 import com.natercio.myhome.profiler.HandleEventTask;
 import com.natercio.myhome.profiler.ProfilerService;
-import com.natercio.myhome.utils.MyHomeLog;
 
 /**
  * Created with IntelliJ IDEA.

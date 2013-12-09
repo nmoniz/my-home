@@ -9,8 +9,11 @@ import com.j256.ormlite.table.DatabaseTable;
  * Date: 10/22/13
  * Time: 8:17 PM
  */
-@DatabaseTable(tableName = "event")
+@DatabaseTable(tableName = Event.TABLE_NAME)
 public class Event {
+
+    public static final String TABLE_NAME = "event";
+
     @DatabaseField(generatedId = true)
     int id;
 

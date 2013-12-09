@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="app_card_background">#FF000000</color>
+    <color name="app_card_box">#FF050505</color>
+
+    <color name="text_background_light">#BE3F3F3F</color>
+
+    <color name="transparency_full">#00000000</color>
+    <color name="transparency_high">#33000000</color>
+    <color name="transparency_mid">#80000000</color>
+    <color name="transparency_low">#CC000000</color>
+    <color name="transparency_very_low">#F2000000</color>
+</resources>

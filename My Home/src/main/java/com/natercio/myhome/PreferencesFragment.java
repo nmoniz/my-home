@@ -28,8 +28,11 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
-        rootView.setBackground(getResources().getDrawable(R.color.transparency_low));
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+
+        if (rootView != null) {
+            rootView.setBackgroundResource(R.color.transparency_low);
+        }
 
         return rootView;
     }

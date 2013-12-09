@@ -3,8 +3,11 @@ package com.natercio.myhome;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.WallpaperManager;
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
@@ -177,41 +180,9 @@ public class Launcher extends FragmentActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.action_bar_background));
         actionBar.hide();
-        /*
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowHomeEnabled(false);
-
-        ActionBar.TabListener tabListener = new ActionBar.TabListener() {
-            @Override
-            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-                appsViewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-            }
-
-            @Override
-            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-            }
-        };
-
-        //Add "Smart" tab
-        actionBar.addTab(actionBar.newTab().setText(R.string.tab_smart).setTabListener(tabListener));
-
-        //Add "Widgets" tab
-        actionBar.addTab(actionBar.newTab().setText(R.string.tab_widgets).setTabListener(tabListener));
-        */
     }
 
     private void setupWallpaper() {
-        try {
-            WallpaperManager wallpaperManager = (WallpaperManager) this.getSystemService(Context.WALLPAPER_SERVICE);
-            wallpaperManager.setResource(R.drawable.default_wallpaper);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         Drawable wallpaper = peekWallpaper();
         if (wallpaper == null) {
             try {
@@ -252,7 +223,6 @@ public class Launcher extends FragmentActivity {
         if (appsViewPager.getCurrentItem() > defaultHomeScreen)
             appsViewPager.setCurrentItem(appsViewPager.getCurrentItem()-1);
     }
-
 
     /////////////////////
     // PRIVATE CLASSES //

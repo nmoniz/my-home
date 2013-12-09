@@ -10,7 +10,7 @@
             android:persistent="false"
             >
 
-            <com.materciomoniz.myhome.utils.NumberPickerDialogPreference
+            <com.natercio.myhome.utils.NumberPickerDialogPreference
                 android:key="pref_home_screens"
 		        android:defaultValue="2"
                 android:dialogMessage="@string/pref_summary_homescreen_number"

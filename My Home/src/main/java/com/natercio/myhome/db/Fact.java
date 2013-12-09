@@ -9,12 +9,15 @@ import com.j256.ormlite.table.DatabaseTable;
  * Date: 10/21/13
  * Time: 6:49 PM
  */
-@DatabaseTable(tableName = "case")
-public class Case {
+@DatabaseTable(tableName = Fact.TABLE_NAME)
+public class Fact {
+
+    public static final String TABLE_NAME = "fact";
+
     @DatabaseField(generatedId = true)
     int id;
 
-    @DatabaseField(canBeNull = false, defaultValue = "0")
+    @DatabaseField(canBeNull = false, defaultValue = "1")
     int reinforcement;
 
     @DatabaseField(canBeNull = false, foreign = true)

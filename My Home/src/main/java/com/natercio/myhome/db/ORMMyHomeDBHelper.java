@@ -1,17 +1,17 @@
 package com.natercio.myhome.db;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.RuntimeExceptionDao;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.natercio.myhome.R;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,17 +23,18 @@ public class ORMMyHomeDBHelper extends OrmLiteSqliteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
 
-    public static final String DATABASE_NAME = "myhome2";
+    public static final String DATABASE_NAME = "myhome";
 
     private Dao<Calendar, Integer> calendarDao = null;
-    private RuntimeExceptionDao<Calendar, Integer> calendarRuntimeExceptionDao = null;
+    //private RuntimeExceptionDao<Calendar, Integer> calendarRuntimeExceptionDao = null;
     private Dao<Event, Integer> eventDao = null;
-    private RuntimeExceptionDao<Event, Integer> eventRuntimeExceptionDao = null;
-    private Dao<Case, Integer> caseDao = null;
-    private RuntimeExceptionDao<Case, Integer> caseRuntimeExceptionDao = null;
+    //private RuntimeExceptionDao<Event, Integer> eventRuntimeExceptionDao = null;
+    private Dao<Fact, Integer> factDao = null;
+    //private RuntimeExceptionDao<Fact, Integer> caseRuntimeExceptionDao = null;
+    private Dao<Similarity, Integer> similarityDao = null;
 
     public ORMMyHomeDBHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_config);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     ////////////////////
@@ -74,11 +75,18 @@ public class ORMMyHomeDBHelper extends OrmLiteSqliteOpenHelper {
         return eventDao;
     }
 
-    public Dao<Case, Integer> getCaseDao() throws SQLException {
-        if (caseDao == null)
-            caseDao = getDao(Case.class);
+    public Dao<Fact, Integer> getFactDao() throws SQLException {
+        if (factDao == null)
+            factDao = getDao(Fact.class);
 
-        return caseDao;
+        return factDao;
+    }
+
+    public Dao<Similarity, Integer> getSimilarityDao() throws SQLException {
+        if (similarityDao == null)
+            similarityDao = getDao(Similarity.class);
+
+        return similarityDao;
     }
 
     /////////////////////
@@ -96,9 +104,10 @@ public class ORMMyHomeDBHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.createTable(connectionSource, Event.class);
 
         // 2# create star centers
-        TableUtils.createTable(connectionSource, Case.class);
+        TableUtils.createTable(connectionSource, Fact.class);
 
-        // 3# create metadata table
+        // 3# create loose tables
+        TableUtils.createTable(connectionSource, Similarity.class);
     }
 
     /**
@@ -107,24 +116,27 @@ public class ORMMyHomeDBHelper extends OrmLiteSqliteOpenHelper {
      * @throws java.sql.SQLException
      */
     private void dropAllTables(ConnectionSource connectionSource) throws SQLException {
-
         // 1# remove star centers
-        TableUtils.dropTable(connectionSource, Case.class, false);
+        TableUtils.dropTable(connectionSource, Fact.class, false);
 
         // 2# remove star arms
         TableUtils.dropTable(connectionSource, Calendar.class, false);
         TableUtils.dropTable(connectionSource, Event.class, false);
 
-        // 3# remove metadata table
+        // 3# remove loose tables
+        TableUtils.dropTable(connectionSource, Similarity.class, false);
     }
 
     /**
      * Insert default data into the database
      */
     private void populateAllTables () throws SQLException {
-        ContentValues values = new ContentValues();
+        populateCalendarTable();
 
-        // populate Calendar table
+        //populateSimilarityTable();
+    }
+
+    private void populateCalendarTable() throws SQLException {
         ArrayList<String> weekDays = new ArrayList<>(7);
         weekDays.add("Mon");		weekDays.add("Tue");
         weekDays.add("Wed");		weekDays.add("Thu");
@@ -151,6 +163,56 @@ public class ORMMyHomeDBHelper extends OrmLiteSqliteOpenHelper {
                     calendars.create(calendar);
                 }
             }
+        }
+    }
+
+    private void populateSimilarityTable() throws SQLException {
+        List<String> similarValues = new ArrayList<>();
+        Dao<Calendar, Integer> calendars = getCalendarDao();
+
+        QueryBuilder<Calendar, Integer> queryBuilder = calendars.queryBuilder();
+        queryBuilder.distinct().selectColumns("month");
+        List<Calendar> calendarList = queryBuilder.query();
+
+        for (Calendar c : calendarList)
+            similarValues.add(c.getWeekday());
+
+        createCosineSimilarities(Calendar.TABLE_NAME, "weekday", similarValues);
+
+        queryBuilder = calendars.queryBuilder();
+        queryBuilder.distinct().selectColumns("month");
+        calendarList = queryBuilder.query();
+
+        for (Calendar c : calendarList)
+            similarValues.add(c.getMonth());
+
+        createCosineSimilarities(Calendar.TABLE_NAME, "month", similarValues);
+
+    }
+
+    private void createCosineSimilarities(String table, String column, List<String> list) throws SQLException {
+        Dao<Similarity, Integer> similarities = getSimilarityDao();
+        Similarity similarity = new Similarity();
+        similarity.setTable(table);
+        similarity.setColumn(column);
+
+        for (int i = 0; i < list.size(); i++) {
+            similarity.setValue_a(list.get(i));
+            for (int j = 1; j < list.size(); j++) {
+                similarity.setValue_b(list.get((i + j) % list.size()));
+                similarity.setSimiliraty(Math.cos(j/list.size()));
+                similarities.create(similarity);
+            }
+        }
+    }
+
+    private void reset() {
+        try {
+            dropAllTables(getConnectionSource());
+            createAllTables(getConnectionSource());
+            populateAllTables();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -24,6 +24,7 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
+
 import com.natercio.myhome.utils.MyHomeLog;
 
 /**

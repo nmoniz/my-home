@@ -3,7 +3,9 @@ package com.natercio.myhome.profiler;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import com.natercio.myhome.db.MyHomeDB;
+
+import com.natercio.myhome.db.Event;
+import com.natercio.myhome.db.Fact;
 
 import java.util.ArrayList;
 
@@ -32,28 +34,26 @@ public class GetFrequentTask extends MyHomeDBTask {
 
     @Override
     protected void task() {
-    }
-
-
-    protected void old_task() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        Cursor c = db.query(
-                MyHomeDB.Event.TABLE_NAME+", case",
-                new String [] {MyHomeDB.Event.COLUMN_NAME, "SUM(case.reinforcement)"},
-                MyHomeDB.Event.TABLE_NAME+"."+MyHomeDB.Event.COLUMN_ID+"=case.fkCalendar_id",
-                null,
-                "case.fkCalendar_id",
-                null,
-                "SUM(case.reinforcement) DESC",
-                String.valueOf(count)
-        );
+        if (db != null) {
+            Cursor c = db.query(
+                    Event.TABLE_NAME+", "+ Fact.TABLE_NAME,
+                    new String [] {"what", "SUM(reinforcement)"},
+                    Event.TABLE_NAME+".id=fkEvent_id",
+                    null,
+                    "fkEvent_id",
+                    null,
+                    "SUM(reinforcement) DESC",
+                    String.valueOf(count)
+            );
 
-        if (c == null || c.getCount() <= 0)
-            return;
+            if (c == null || c.getCount() <= 0)
+                return;
 
-        while (c.moveToNext()) {
-            frequent.add(c.getString(c.getColumnIndex(MyHomeDB.Event.COLUMN_NAME)));
+            while (c.moveToNext()) {
+                frequent.add(c.getString(c.getColumnIndex("what")));
+            }
         }
     }
 }
