@@ -1,11 +1,11 @@
 package com.natercio.myhome.db;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class ORMMyHomeDBHelper extends OrmLiteSqliteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     public static final String DATABASE_NAME = "myhome";
 
@@ -35,6 +35,8 @@ public class ORMMyHomeDBHelper extends OrmLiteSqliteOpenHelper {
 
     public ORMMyHomeDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
+        //reset();
     }
 
     ////////////////////
@@ -170,23 +172,14 @@ public class ORMMyHomeDBHelper extends OrmLiteSqliteOpenHelper {
         List<String> similarValues = new ArrayList<>();
         Dao<Calendar, Integer> calendars = getCalendarDao();
 
-        QueryBuilder<Calendar, Integer> queryBuilder = calendars.queryBuilder();
-        queryBuilder.distinct().selectColumns("month");
-        List<Calendar> calendarList = queryBuilder.query();
+        Cursor c = getReadableDatabase().query(true, Calendar.TABLE_NAME, new String[] {"month"}, null, null, null, null, null, null);
 
-        for (Calendar c : calendarList)
-            similarValues.add(c.getWeekday());
-
-        createCosineSimilarities(Calendar.TABLE_NAME, "weekday", similarValues);
-
-        queryBuilder = calendars.queryBuilder();
-        queryBuilder.distinct().selectColumns("month");
-        calendarList = queryBuilder.query();
-
-        for (Calendar c : calendarList)
-            similarValues.add(c.getMonth());
+        while (c.moveToNext())
+            similarValues.add(c.getString(0));
 
         createCosineSimilarities(Calendar.TABLE_NAME, "month", similarValues);
+
+        c = getReadableDatabase().query(true, Calendar.TABLE_NAME, new String[] {"weekday"}, null, null, null, null, null, null);
 
     }
 

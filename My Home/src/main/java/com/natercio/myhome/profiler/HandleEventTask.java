@@ -37,7 +37,7 @@ public class HandleEventTask extends MyHomeDBTask {
             Dao<Event, Integer> events = dbHelper.getEventDao();
             List<Event> matchingEvents = events.queryForMatching(event);
 
-            List<Calendar> matchingCalendars = dbHelper.getCalendarDao().queryForMatching(getCurrentCalendar());
+            Calendar currentCalendar = getCurrentCalendar();
 
             Dao<Fact, Integer> facts = dbHelper.getFactDao();
 
@@ -46,17 +46,18 @@ public class HandleEventTask extends MyHomeDBTask {
                 matchingEvents = events.queryForMatching(event);
 
                 Fact fact = new Fact();
-                fact.setFkCalendar(matchingCalendars.get(0));
+                fact.setFkCalendar(currentCalendar);
                 fact.setFkEvent(matchingEvents.get(0));
                 facts.create(fact);
             } else {
                 UpdateBuilder<Fact, Integer> updateBuilder = facts.updateBuilder();
                 updateBuilder.updateColumnExpression("reinforcement", "reinforcement+1");
-                updateBuilder.where().eq("fkEvent_id", matchingEvents.get(0).getId()).and().eq("fkCalendar_id", matchingCalendars.get(0).getId());
+                updateBuilder.where().eq("fkEvent_id", matchingEvents.get(0).getId()).and().eq("fkCalendar_id", currentCalendar.getId());
                 updateBuilder.update();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 }
